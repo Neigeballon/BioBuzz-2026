@@ -31,6 +31,7 @@ public class BioBuzzStarterBotTeleop extends OpMode {
    double rightPower;
    boolean isPressed = false;
    boolean on = false;
+   boolean upToSpeed = false;
 
    @Override
    public void init() {
@@ -122,40 +123,49 @@ public class BioBuzzStarterBotTeleop extends OpMode {
            launcher.setVelocity(0);
        }
 
+	   if (launcher.getVelocity() > LAUNCHER_MIN_VELOCITY && !upToSpeed) {
+		   upToSpeed = true;
+		   gamepad1.rumble(500);
+		   gamepad2.rumble(500);
+	   }
+	   else if (launcher.getVelocity() < LAUNCHER_MIN_VELOCITY) {
+		   upToSpeed = false;
+	   }
+
        if (gamepad2.left_bumper) {
            intake.setPower(1);
-	         leftIntakeServo.setPower(1);
-	         rightIntakeServo.setPower(1);
+	       leftIntakeServo.setPower(1);
+	       rightIntakeServo.setPower(1);
        } 
 	     else if (gamepad2.left_trigger > 0.5) {
-	         intake.setPower(-1);
+	       intake.setPower(-1);
            leftIntakeServo.setPower(-1);
-	         rightIntakeServo.setPower(-1);
+	       rightIntakeServo.setPower(-1);
        }
 	     else {
-	         intake.setPower(0);
-	         leftIntakeServo.setPower(0);
-	         rightIntakeServo.setPower(0);
+	       intake.setPower(0);
+	       leftIntakeServo.setPower(0);
+	       rightIntakeServo.setPower(0);
        }
      
        if (gamepad2.right_bumper && launcher.getVelocity() > LAUNCHER_MIN_VELOCITY) {
            // Manual indexer: A advances elements, B backs them out to clear a jam.
            windmillServo.setPower(1);
-	         intake.setPower(1);
-	         leftIntakeServo.setPower(1); 
- 	         rightIntakeServo.setPower(1); 
+	       intake.setPower(1);
+	       leftIntakeServo.setPower(1); 
+ 	       rightIntakeServo.setPower(1); 
        } 
        else if (gamepad2.right_trigger > 0.5) {
            windmillServo.setPower(-1);
-	         intake.setPower(0);
+	       intake.setPower(0);
            leftIntakeServo.setPower(0); 
- 	         rightIntakeServo.setPower(0); 
+ 	       rightIntakeServo.setPower(0); 
        } 
        else {
            windmillServo.setPower(0);
-	         intake.setPower(0);
-	         leftIntakeServo.setPower(0); 
- 	         rightIntakeServo.setPower(0);
+	       intake.setPower(0);
+	       leftIntakeServo.setPower(0); 
+ 	       rightIntakeServo.setPower(0);
        }
    }
 }
