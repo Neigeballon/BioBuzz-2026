@@ -92,7 +92,7 @@ public class BioBuzzStarterBotTeleop extends OpMode {
    }
 
    void arcadeDrive(double forward, double rotate) {
-	     double speedMultiplier = gamepad1.left_bumper ? 0.5 : 1.0;
+	   double speedMultiplier = gamepad1.left_bumper ? 0.5 : 1.0;
        leftPower = forward + rotate;
        rightPower = forward - rotate;
 
@@ -114,8 +114,9 @@ public class BioBuzzStarterBotTeleop extends OpMode {
        else if (!gamepad2.a) {
            isPressed = false;
        }
-	     if (on) {
-	     launcher.setVelocity(LAUNCHER_TARGET_VELOCITY);
+	   
+	   if (on) {
+	       launcher.setVelocity(LAUNCHER_TARGET_VELOCITY);
        }
        else {
            launcher.setVelocity(0);
