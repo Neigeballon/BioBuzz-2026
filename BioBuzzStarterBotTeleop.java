@@ -110,11 +110,11 @@ public class BioBuzzStarterBotTeleop extends OpMode {
 
    void launch() {
 	    
-       if (gamepad2.a && !isPressed) {
+       if (gamepad2.x && !isPressed) {
 	     isPressed = true;
            on = !on;
        } 
-       else if (!gamepad2.a) {
+       else if (!gamepad2.x) {
            isPressed = false;
        }
 	   
@@ -153,25 +153,14 @@ public class BioBuzzStarterBotTeleop extends OpMode {
        if (gamepad2.right_bumper && launcher.getVelocity() > LAUNCHER_MIN_VELOCITY) {
            // Manual indexer: A advances elements, B backs them out to clear a jam.
            windmillServo.setPower(1);
-	       intake.setPower(1);
-	       leftIntakeServo.setPower(1); 
- 	       rightIntakeServo.setPower(1); 
        } 
        else if (gamepad2.right_trigger > 0.5) {
            windmillServo.setPower(-1);
-		   if (!gamepad2.left_bumper && gamepad2.left_trigger <= 0.5) {
-			   intake.setPower(0);
-           	   leftIntakeServo.setPower(0); 
- 	           rightIntakeServo.setPower(0); 
-		   }
        } 
        else {
            windmillServo.setPower(0);
-	       if (!gamepad2.left_bumper && gamepad2.left_trigger <= 0.5) {
-			   intake.setPower(0);
-           	   leftIntakeServo.setPower(0); 
- 	           rightIntakeServo.setPower(0); 
-		   }
        }
+
+	   
    }
 }
