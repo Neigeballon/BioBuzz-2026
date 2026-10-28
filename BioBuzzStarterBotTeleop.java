@@ -67,6 +67,7 @@ public class BioBuzzStarterBotTeleop extends OpMode {
        windmillServo.setDirection(DcMotorSimple.Direction.REVERSE);
 
        telemetry.addData("Status", "Initialized");
+	   telemetry.update();
    }
 
    @Override
@@ -86,6 +87,7 @@ public class BioBuzzStarterBotTeleop extends OpMode {
 
        telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
        telemetry.addLine();
+	   telemetry.update();
    }
 
    @Override
@@ -157,15 +159,19 @@ public class BioBuzzStarterBotTeleop extends OpMode {
        } 
        else if (gamepad2.right_trigger > 0.5) {
            windmillServo.setPower(-1);
-	       intake.setPower(0);
-           leftIntakeServo.setPower(0); 
- 	       rightIntakeServo.setPower(0); 
+		   if (!gamepad2.left_bumper && gamepad2.left_trigger <= 0.5) {
+			   intake.setPower(0);
+           	   leftIntakeServo.setPower(0); 
+ 	           rightIntakeServo.setPower(0); 
+		   }
        } 
        else {
            windmillServo.setPower(0);
-	       intake.setPower(0);
-	       leftIntakeServo.setPower(0); 
- 	       rightIntakeServo.setPower(0);
+	       if (!gamepad2.left_bumper && gamepad2.left_trigger <= 0.5) {
+			   intake.setPower(0);
+           	   leftIntakeServo.setPower(0); 
+ 	           rightIntakeServo.setPower(0); 
+		   }
        }
    }
 }
