@@ -134,56 +134,40 @@ public class BioBuzzStarterBotTeleop extends OpMode {
 		   upToSpeed = false;
 	   }
 
-	   if (gamepad2.right_arrow) {
-		   windmillServo.setPower(1);
-		   intake.setPower(1);
-	       leftIntakeServo.setPower(1);
-	       rightIntakeServo.setPower(1);
-	   }
-	   else if (gamepad2.left_arrow) {
-		   windmillServo.setPower(-1);
-		   intake.setPower(-1);
-	       leftIntakeServo.setPower(-1);
-	       rightIntakeServo.setPower(-1);
-	   }
-	   else {
-		   if (!gamepad2.left_bumper && gamepad2.left_trigger <= 0.5) {
-			   intake.setPower(0);
-	       	   leftIntakeServo.setPower(0);
-	           rightIntakeServo.setPower(0);
-		   }
-		   if (!gamepad2.right_bumper && gamepad2.right_trigger <= 0.5) {
-			   windmillServo.setPower(0);
-		   }
-	   }
+	   double intakePower = 0;
+   	   double windmillPower = 0;
 
-       if (gamepad2.left_bumper) {
-           intake.setPower(1);
-	       leftIntakeServo.setPower(1);
-	       rightIntakeServo.setPower(1);
-       } 
-	     else if (gamepad2.left_trigger > 0.5) {
-	       intake.setPower(-1);
-           leftIntakeServo.setPower(-1);
-	       rightIntakeServo.setPower(-1);
-       }
-	     else {
-	       intake.setPower(0);
-	       leftIntakeServo.setPower(0);
-	       rightIntakeServo.setPower(0);
-       }
-     
-       if (gamepad2.right_bumper && launcher.getVelocity() > LAUNCHER_MIN_VELOCITY) {
-           // Manual indexer: A advances elements, B backs them out to clear a jam.
-           windmillServo.setPower(1);
-       } 
-       else if (gamepad2.right_trigger > 0.5) {
-           windmillServo.setPower(-1);
-       } 
-       else {
-           windmillServo.setPower(0);
-       }
+      // Check manual intake controls (bumpers/triggers)
+      if (gamepad2.left_bumper) {
+          intakePower = 1.0;
+      } 
+	  else if (gamepad2.left_trigger > 0.5) {
+          intakePower = -1.0;
+      }
 
+      // Check manual indexer controls (right bumper/trigger)
+      if (gamepad2.right_bumper && launcher.getVelocity() > LAUNCHER_MIN_VELOCITY) {
+          windmillPower = 1.0;
+      } 
+	  else if (gamepad2.right_trigger > 0.5) {
+          windmillPower = -1.0;
+      }
+
+      // Check simultaneous arrow controls (overrides if arrows are pressed)
+      if (gamepad2.right_arrow) {
+          intakePower = 1.0;
+          windmillPower = 1.0;
+      }
+   	  else if (gamepad2.left_arrow) {
+          intakePower = -1.0;
+          windmillPower = -1.0;
+      }
+
+      // 3. Apply final powers ONCE to motors and servos
+      intake.setPower(intakePower);
+      leftIntakeServo.setPower(intakePower);
+      rightIntakeServo.setPower(intakePower);
+      windmillServo.setPower(windmillPower);
 	   
    }
 }
