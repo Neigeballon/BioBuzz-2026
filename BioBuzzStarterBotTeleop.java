@@ -134,6 +134,29 @@ public class BioBuzzStarterBotTeleop extends OpMode {
 		   upToSpeed = false;
 	   }
 
+	   if (gamepad2.right_arrow) {
+		   windmillServo.setPower(1);
+		   intake.setPower(1);
+	       leftIntakeServo.setPower(1);
+	       rightIntakeServo.setPower(1);
+	   }
+	   else if (gamepad2.left_arrow) {
+		   windmillServo.setPower(-1);
+		   intake.setPower(-1);
+	       leftIntakeServo.setPower(-1);
+	       rightIntakeServo.setPower(-1);
+	   }
+	   else {
+		   if (!gamepad2.left_bumper && gamepad2.left_trigger <= 0.5) {
+			   intake.setPower(0);
+	       	   leftIntakeServo.setPower(0);
+	           rightIntakeServo.setPower(0);
+		   }
+		   if (!gamepad2.right_bumper && gamepad2.right_trigger <= 0.5) {
+			   windmillServo.setPower(0);
+		   }
+	   }
+
        if (gamepad2.left_bumper) {
            intake.setPower(1);
 	       leftIntakeServo.setPower(1);
