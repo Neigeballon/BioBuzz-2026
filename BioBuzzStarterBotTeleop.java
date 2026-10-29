@@ -157,11 +157,11 @@ public class BioBuzzStarterBotTeleop extends OpMode {
       }
 
       // Check simultaneous arrow controls (overrides if arrows are pressed)
-      if (gamepad2.right_arrow && launcher.getVelocity() > LAUNCHER_MIN_VELOCITY) {
+      if (gamepad2.dpad_right && launcher.getVelocity() > LAUNCHER_MIN_VELOCITY) {
           intakePower = 1.0;
           windmillPower = 1.0;
       }
-   	  else if (gamepad2.left_arrow) {
+   	  else if (gamepad2.dpad_left) {
           intakePower = -1.0;
           windmillPower = -1.0;
       }
@@ -170,7 +170,6 @@ public class BioBuzzStarterBotTeleop extends OpMode {
       intake.setPower(intakePower);
       leftIntakeServo.setPower(intakePower);
       rightIntakeServo.setPower(intakePower);
-      windmillServo.setPower(windmillPower);
-	   
+      windmillServo.setPower(windmillPower);   
    }
 }
