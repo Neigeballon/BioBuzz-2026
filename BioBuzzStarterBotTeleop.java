@@ -29,6 +29,9 @@ public class BioBuzzStarterBotTeleop extends OpMode {
 
    double leftPower;
    double rightPower;
+   double speedMultiplier;
+   double intakePower;
+   double windmillPower;
    boolean isPressed = false;
    boolean on = false;
    boolean upToSpeed = false;
@@ -95,7 +98,7 @@ public class BioBuzzStarterBotTeleop extends OpMode {
    }
 
    void arcadeDrive(double forward, double rotate) {
-	   double speedMultiplier = gamepad1.left_bumper ? 0.5 : 1.0;
+	   speedMultiplier = gamepad1.left_bumper ? 0.5 : 1.0;
        leftPower = forward + rotate;
        rightPower = forward - rotate;
 
@@ -134,8 +137,8 @@ public class BioBuzzStarterBotTeleop extends OpMode {
 		   upToSpeed = false;
 	   }
 
-	   double intakePower = 0;
-   	   double windmillPower = 0;
+	   intakePower = 0;
+   	   windmillPower = 0;
 
       // Check manual intake controls (bumpers/triggers)
       if (gamepad2.left_bumper) {
@@ -154,7 +157,7 @@ public class BioBuzzStarterBotTeleop extends OpMode {
       }
 
       // Check simultaneous arrow controls (overrides if arrows are pressed)
-      if (gamepad2.right_arrow) {
+      if (gamepad2.right_arrow && launcher.getVelocity() > LAUNCHER_MIN_VELOCITY) {
           intakePower = 1.0;
           windmillPower = 1.0;
       }
