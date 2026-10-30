@@ -29,7 +29,6 @@ public class BioBuzzStarterBotTeleop extends OpMode {
 
    double leftPower;
    double rightPower;
-   double speedMultiplier;
    double intakePower;
    double windmillPower;
    boolean isPressed = false;
@@ -98,7 +97,7 @@ public class BioBuzzStarterBotTeleop extends OpMode {
    }
 
    void arcadeDrive(double forward, double rotate) {
-	   speedMultiplier = gamepad1.left_bumper ? 0.5 : 1.0;
+	   double speedMultiplier = gamepad1.left_bumper ? 0.5 : 1.0;
        leftPower = forward + rotate;
        rightPower = forward - rotate;
 
@@ -113,7 +112,7 @@ public class BioBuzzStarterBotTeleop extends OpMode {
 
    void launch() {
 	    
-       if (gamepad2.x && !isPressed) {
+       if (gamepad2.right_bumper && !isPressed) {
 	       isPressed = true;
            on = !on;
        } 
@@ -141,7 +140,7 @@ public class BioBuzzStarterBotTeleop extends OpMode {
    	   windmillPower = 0;
 
       // Check manual intake controls (bumpers/triggers)
-      if (gamepad2.left_bumper) {
+      if (gamepad2.right_trigger > 0.5) {
           intakePower = 1.0;
       } 
 	  else if (gamepad2.left_trigger > 0.5) {
@@ -149,19 +148,19 @@ public class BioBuzzStarterBotTeleop extends OpMode {
       }
 
       // Check manual indexer controls (right bumper/trigger)
-      if (gamepad2.right_bumper && launcher.getVelocity() > LAUNCHER_MIN_VELOCITY) {
+      if (gamepad2.a && launcher.getVelocity() > LAUNCHER_MIN_VELOCITY) {
           windmillPower = 1.0;
       } 
-	  else if (gamepad2.right_trigger > 0.5) {
+	  else if (gamepad2.b) {
           windmillPower = -1.0;
       }
 
       // Check simultaneous arrow controls (overrides if arrows are pressed)
-      if (gamepad2.dpad_right && launcher.getVelocity() > LAUNCHER_MIN_VELOCITY) {
+      if (gamepad2.dpad_up && launcher.getVelocity() > LAUNCHER_MIN_VELOCITY) {
           intakePower = 1.0;
           windmillPower = 1.0;
       }
-   	  else if (gamepad2.dpad_left) {
+   	  else if (gamepad2.dpad_down) {
           intakePower = -1.0;
           windmillPower = -1.0;
       }
