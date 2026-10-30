@@ -114,7 +114,7 @@ public class BioBuzzStarterBotTeleop extends OpMode {
    void launch() {
 	    
        if (gamepad2.x && !isPressed) {
-	     isPressed = true;
+	       isPressed = true;
            on = !on;
        } 
        else if (!gamepad2.x) {
