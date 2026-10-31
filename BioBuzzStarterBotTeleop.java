@@ -24,8 +24,8 @@ public class BioBuzzStarterBotTeleop extends OpMode {
    private CRServo rightIntakeServo = null;
    private CRServo windmillServo = null;
   
-   public final int LAUNCHER_TARGET_VELOCITY = 1250;
-   public final int LAUNCHER_MIN_VELOCITY = 1200;
+   public final int LAUNCHER_TARGET_VELOCITY = 1375;
+   public final int LAUNCHER_MIN_VELOCITY = 1350;
 
    double leftPower;
    double rightPower;
