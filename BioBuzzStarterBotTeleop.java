@@ -112,30 +112,12 @@ public class BioBuzzStarterBotTeleop extends OpMode {
 
    void launch() {
 	    
-       if (gamepad2.right_bumper && !isPressed) {
-	       isPressed = true;
-           on = !on;
-       } 
-       else if (!gamepad2.x) {
-           isPressed = false;
-       }
-	   
-	   if (on) {
-	       launcher.setVelocity(LAUNCHER_TARGET_VELOCITY);
-       }
-       else {
-           launcher.setVelocity(0);
-       }
-
-	   if (launcher.getVelocity() > LAUNCHER_MIN_VELOCITY && !upToSpeed) {
-		   upToSpeed = true;
-		   gamepad1.rumble(500);
-		   gamepad2.rumble(500);
+       if (gamepad2.left_trigger > 0.5) {
+		   launcher.setVelocity(LAUNCHER_TARGET_VELOCITY);
 	   }
-	   else if (launcher.getVelocity() < LAUNCHER_MIN_VELOCITY) {
-		   upToSpeed = false;
+	   else {
+		   launcher.setVelocity(0);
 	   }
-
 	   intakePower = 0;
    	   windmillPower = 0;
 
@@ -143,12 +125,12 @@ public class BioBuzzStarterBotTeleop extends OpMode {
       if (gamepad2.right_trigger > 0.5) {
           intakePower = 1.0;
       } 
-	  else if (gamepad2.left_trigger > 0.5) {
+	  else if (gamepad2.right_bumper) {
           intakePower = -1.0;
       }
 
       // Check manual indexer controls (right bumper/trigger)
-      if (gamepad2.a && launcher.getVelocity() > LAUNCHER_MIN_VELOCITY) {
+      if (gamepad2.a) {
           windmillPower = 1.0;
       } 
 	  else if (gamepad2.b) {
@@ -156,7 +138,7 @@ public class BioBuzzStarterBotTeleop extends OpMode {
       }
 
       // Check simultaneous arrow controls (overrides if arrows are pressed)
-      if (gamepad2.dpad_up && launcher.getVelocity() > LAUNCHER_MIN_VELOCITY) {
+      if (gamepad2.dpad_up) {
           intakePower = 1.0;
           windmillPower = 1.0;
       }
