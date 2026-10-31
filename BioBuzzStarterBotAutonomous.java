@@ -28,7 +28,7 @@ public class BioBuzzStarterBotAutonomous extends OpMode {
       TENTH,
       DONE
    }
-   private AutonState currentState = AutonState.DRIVE_FORWARD;
+   private AutonState currentState = AutonState.FIRST;
 
    // Declare OpMode members.
    private DcMotor leftDrive = null;
@@ -91,7 +91,7 @@ public class BioBuzzStarterBotAutonomous extends OpMode {
       switch (currentState) {
          case FIRST:
 
-            if (stateTimer.seconds() >= *) {
+            if (stateTimer.seconds() >= 1.0) {
                stateTimer.reset();
                currentState = AutonState.SECOND;
             }
@@ -99,7 +99,7 @@ public class BioBuzzStarterBotAutonomous extends OpMode {
          }
          case SECOND:
 
-            if (stateTimer.seconds() >= *) {
+            if (stateTimer.seconds() >= 1.0) {
                stateTimer.reset();
                currentState = AutonState.THIRD;
             }
@@ -107,7 +107,7 @@ public class BioBuzzStarterBotAutonomous extends OpMode {
          }
          case THIRD:
 
-            if (stateTimer.seconds() >= *) {
+            if (stateTimer.seconds() >= 1.0) {
                stateTimer.reset();
                currentState = AutonState.FOURTH;
             }
@@ -115,7 +115,7 @@ public class BioBuzzStarterBotAutonomous extends OpMode {
          }
          case FOURTH:
 
-            if (stateTimer.seconds() >= *) {
+            if (stateTimer.seconds() >= 1.0) {
                stateTimer.reset();
                currentState = AutonState.FIFTH;
             }
@@ -123,7 +123,7 @@ public class BioBuzzStarterBotAutonomous extends OpMode {
          }
          case FIFTH:
 
-            if (stateTimer.seconds() >= *) {
+            if (stateTimer.seconds() >= 1.0) {
                stateTimer.reset();
                currentState = AutonState.SIXTH;
             }
@@ -131,7 +131,7 @@ public class BioBuzzStarterBotAutonomous extends OpMode {
          }
          case SIXTH:
 
-            if (stateTimer.seconds() >= *) {
+            if (stateTimer.seconds() >= 1.0) {
                stateTimer.reset();
                currentState = AutonState.SEVENTH;
             }
@@ -139,7 +139,7 @@ public class BioBuzzStarterBotAutonomous extends OpMode {
          }
          case SEVENTH:
 
-            if (stateTimer.seconds() >= *) {
+            if (stateTimer.seconds() >= 1.0) {
                stateTimer.reset();
                currentState = AutonState.EIGHTH;
             }
@@ -147,7 +147,7 @@ public class BioBuzzStarterBotAutonomous extends OpMode {
          }
          case EIGHTH:
 
-            if (stateTimer.seconds() >= *) {
+            if (stateTimer.seconds() >= 1.0) {
                stateTimer.reset();
                currentState = AutonState.NINETH;
             }
@@ -155,7 +155,7 @@ public class BioBuzzStarterBotAutonomous extends OpMode {
          }
          case NINETH:
 
-            if (stateTimer.seconds() >= *) {
+            if (stateTimer.seconds() >= 1.0) {
                stateTimer.reset();
                currentState = AutonState.TENTH;
             }
@@ -163,7 +163,7 @@ public class BioBuzzStarterBotAutonomous extends OpMode {
          }
          case TENTH:
 
-            if (stateTimer.seconds() >= *) {
+            if (stateTimer.seconds() >= 1.000) {
                stateTimer.reset();
                currentState = AutonState.DONE;
             }
