@@ -74,9 +74,7 @@ public class BioBuzzStarterBotAutonomous extends OpMode {
    }
 
    @Override
-   public void start() {
-      stateTimer.reset();
-   }
+   public void start() {stateTimer.reset();}
 
    @Override
    public void loop() {
