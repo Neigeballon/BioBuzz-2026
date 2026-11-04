@@ -10,46 +10,49 @@ import com.qualcomm.robotcore.hardware.*;
 public class BioBuzzStarterbotTeleop extends OpMode {
 
    // Declare OpMode members.
-   private DcMotor leftFrontDrive = null;
-   private DcMotor leftBackDrive  = null;
-   private DcMotor rightFrontDrive = null;
-   private DcMotor rightBackDrive = null;
+   private DcMotor LFD = null;
+   private DcMotor LBD  = null;
+   private DcMotor RFD = null;
+   private DcMotor RBD = null;
    private DcMotorEx launcher = null;
    private DcMotor intake = null;
   
    public final int LAUNCHER_TARGET_VELOCITY = 1375;
    public final int LAUNCHER_MIN_VELOCITY = 1350;
 
+   double LFP = 0;
+   double LBP = 0;
+   double RFP = 0;
+   double RBP = 0;
    boolean isPressed = false;
    boolean on = false;
-   boolean upToSpeed = false;
 
    @Override
    public void init() {
 
-       leftFrontDrive = hardwareMap.get(DcMotor.class, "left_front_drive");
-       leftBackDrive = hardwareMap.get(DcMotor.class, "left_back_drive");
-       rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
-	   rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
+       LFD = hardwareMap.get(DcMotor.class, "left_front_drive");
+       LBD = hardwareMap.get(DcMotor.class, "left_back_drive");
+       RFD = hardwareMap.get(DcMotor.class, "right_front_drive");
+	   RBD = hardwareMap.get(DcMotor.class, "right_back_drive");
        intake = hardwareMap.get(DcMotor.class, "intake");
        launcher = hardwareMap.get(DcMotorEx.class, "launcher");
        
-       leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-	   leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
-       rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-	   rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+       LFD.setDirection(DcMotor.Direction.REVERSE);
+	   LBD.setDirection(DcMotor.Direction.REVERSE);
+       RFD.setDirection(DcMotor.Direction.FORWARD);
+	   RBD.setDirection(DcMotor.Direction.FORWARD);
 
-       leftFrontDrive.setZeroPowerBehavior(BRAKE);
-	   leftBackDrive.setZeroPowerBehavior(BRAKE);
-       rightFrontDrive.setZeroPowerBehavior(BRAKE);
-	   rightBackDrive.setZeroPowerBehavior(BRAKE);
+       LFD.setZeroPowerBehavior(BRAKE);
+	   LBD.setZeroPowerBehavior(BRAKE);
+       RFD.setZeroPowerBehavior(BRAKE);
+	   RBD.setZeroPowerBehavior(BRAKE);
        intake.setZeroPowerBehavior(BRAKE);
 
        // Auto leaves the drive motors in RUN_TO_POSITION, so switch back to plain power control.
-       leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-	   leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-       rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-	   rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+       LFD.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+	   LBD.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+       RFD.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+	   RBD.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
        launcher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
@@ -70,6 +73,39 @@ public class BioBuzzStarterbotTeleop extends OpMode {
    @Override
    public void loop() {
 	   double speedMultiplier = gamepad1.left_bumper ? 0.5 : 1.0;
+
+	   if (gamepad1.dpad_up) {
+	   	   LFP = 1;
+		   LBP = 1;
+		   RFP = 1;
+		   RBP = 1;
+	   }
+	   else if (gamepad1.dpad_down) {
+		   LFP = -1;
+		   LBP = -1;
+		   RFP = -1;
+		   RBP = -1;
+	   }
+	   else if (gamepad1.dpad_left) {
+		   LFP = -1;
+		   LBP = 1;
+		   RFP = 1;
+		   RBP = -1;
+	   }
+	   else if (gamepad1.dpad_right) {
+		   LFP = 1;
+		   LBP = -1;
+		   RFP = -1;
+		   RBP = 1;
+	   }
+	   else {
+		   LFP = 0;
+		   LBP = 0;
+		   RFP = 0;
+		   RBP = 0;
+	   }
+	   
+	   
        launch();
    }
 
