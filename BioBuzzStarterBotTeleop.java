@@ -6,9 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.*;
 import com.qualcomm.robotcore.hardware.*;
 
 @TeleOp(name = "BioBuzz StarterBot Teleop", group = "StarterBot")
-//@Disabled
 public class BioBuzzStarterbotTeleop extends OpMode {
-
    // Declare OpMode members.
    private DcMotor LFD = null;
    private DcMotor LBD  = null;
