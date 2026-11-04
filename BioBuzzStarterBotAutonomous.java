@@ -26,13 +26,12 @@ public class BioBuzzStarterBotAutonomous extends OpMode {
    private AutonState currentState = AutonState.FIRST;
 
    // Declare OpMode members.
-   private DcMotor leftDrive = null;
-   private DcMotor rightDrive = null;
+   private DcMotor LFD = null;
+   private DcMotor LBD  = null;
+   private DcMotor RFD = null;
+   private DcMotor RBD = null;
    private DcMotorEx launcher = null;
    private DcMotor intake = null;
-   private CRServo leftIntakeServo = null;
-   private CRServo rightIntakeServo = null;
-   private CRServo windmillServo = null;
 
    private ElapsedTime stateTimer = new ElapsedTime();
   
