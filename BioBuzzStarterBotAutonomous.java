@@ -41,38 +41,36 @@ public class BioBuzzStarterBotAutonomous extends OpMode {
    @Override
    public void init() {
 
-       leftDrive = hardwareMap.get(DcMotor.class, "left_drive");
-       rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
+       LFD = hardwareMap.get(DcMotor.class, "left_front_drive");
+       LBD = hardwareMap.get(DcMotor.class, "left_back_drive");
+       RFD = hardwareMap.get(DcMotor.class, "right_front_drive");
+	   RBD = hardwareMap.get(DcMotor.class, "right_back_drive");
        intake = hardwareMap.get(DcMotor.class, "intake");
        launcher = hardwareMap.get(DcMotorEx.class, "launcher");
-       windmillServo = hardwareMap.get(CRServo.class, "windmill");
-       leftIntakeServo = hardwareMap.get(CRServo.class, "left_intake_servo");
-       rightIntakeServo = hardwareMap.get(CRServo.class, "right_intake_servo");
+       
+       LFD.setDirection(DcMotor.Direction.REVERSE);
+	   LBD.setDirection(DcMotor.Direction.REVERSE);
+       RFD.setDirection(DcMotor.Direction.FORWARD);
+	   RBD.setDirection(DcMotor.Direction.FORWARD);
 
-       leftDrive.setDirection(DcMotor.Direction.FORWARD);
-       rightDrive.setDirection(DcMotor.Direction.REVERSE);
-
-       leftDrive.setZeroPowerBehavior(BRAKE);
-       rightDrive.setZeroPowerBehavior(BRAKE);
+       LFD.setZeroPowerBehavior(BRAKE);
+	   LBD.setZeroPowerBehavior(BRAKE);
+       RFD.setZeroPowerBehavior(BRAKE);
+	   RBD.setZeroPowerBehavior(BRAKE);
        intake.setZeroPowerBehavior(BRAKE);
 
        // Auto leaves the drive motors in RUN_TO_POSITION, so switch back to plain power control.
-       leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-       rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+       LFD.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+	   LBD.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+       RFD.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+	   RBD.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
        launcher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
        launcher.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(40, 0, 0, 12.5));
 
-       leftIntakeServo.setPower(0);
-       rightIntakeServo.setPower(0);
-       windmillServo.setPower(0);
-
-       rightIntakeServo.setDirection(DcMotorSimple.Direction.REVERSE);
-       windmillServo.setDirection(DcMotorSimple.Direction.REVERSE);
-
        telemetry.addData("Status", "Initialized");
-	    telemetry.update();
+	   telemetry.update();
    }
 
    @Override
