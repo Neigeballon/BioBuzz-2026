@@ -2,35 +2,24 @@ package org.firstinspires.ftc.teamcode;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.PIDFCoefficients;
-import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.eventloop.opmode.*;
+import com.qualcomm.robotcore.hardware.*;
 
 @TeleOp(name = "BioBuzz StarterBot Teleop", group = "StarterBot")
 //@Disabled
-public class BioBuzzStarterBotTeleop extends OpMode {
+public class BioBuzzStarterbotTeleop extends OpMode {
 
    // Declare OpMode members.
-   private DcMotor leftDrive = null;
-   private DcMotor rightDrive = null;
+   private DcMotor leftFrontDrive = null;
+   private DcMotor leftBackDrive  = null;
+   private DcMotor rightFrontDrive = null;
+   private DcMotor rightBackDrive = null;
    private DcMotorEx launcher = null;
    private DcMotor intake = null;
-   private CRServo leftIntakeServo = null;
-   private CRServo rightIntakeServo = null;
-   private CRServo windmillServo = null;
   
    public final int LAUNCHER_TARGET_VELOCITY = 1375;
    public final int LAUNCHER_MIN_VELOCITY = 1350;
 
-   double leftPower;
-   double rightPower;
-   double intakePower;
-   double windmillPower;
    boolean isPressed = false;
    boolean on = false;
    boolean upToSpeed = false;
@@ -38,35 +27,33 @@ public class BioBuzzStarterBotTeleop extends OpMode {
    @Override
    public void init() {
 
-       leftDrive = hardwareMap.get(DcMotor.class, "left_drive");
-       rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
+       leftFrontDrive = hardwareMap.get(DcMotor.class, "left_front_drive");
+       leftBackDrive = hardwareMap.get(DcMotor.class, "left_back_drive");
+       rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
+	   rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
        intake = hardwareMap.get(DcMotor.class, "intake");
        launcher = hardwareMap.get(DcMotorEx.class, "launcher");
-       windmillServo = hardwareMap.get(CRServo.class, "windmill");
-       leftIntakeServo = hardwareMap.get(CRServo.class, "left_intake_servo");
-       rightIntakeServo = hardwareMap.get(CRServo.class, "right_intake_servo");
+       
+       leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+	   leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
+       rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+	   rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
 
-       leftDrive.setDirection(DcMotor.Direction.FORWARD);
-       rightDrive.setDirection(DcMotor.Direction.REVERSE);
-
-       leftDrive.setZeroPowerBehavior(BRAKE);
-       rightDrive.setZeroPowerBehavior(BRAKE);
+       leftFrontDrive.setZeroPowerBehavior(BRAKE);
+	   leftBackDrive.setZeroPowerBehavior(BRAKE);
+       rightFrontDrive.setZeroPowerBehavior(BRAKE);
+	   rightBackDrive.setZeroPowerBehavior(BRAKE);
        intake.setZeroPowerBehavior(BRAKE);
 
        // Auto leaves the drive motors in RUN_TO_POSITION, so switch back to plain power control.
-       leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-       rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+       leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+	   leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+       rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+	   rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
        launcher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
        launcher.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(40, 0, 0, 12.5));
-
-       leftIntakeServo.setPower(0);
-       rightIntakeServo.setPower(0);
-       windmillServo.setPower(0);
-
-       rightIntakeServo.setDirection(DcMotorSimple.Direction.REVERSE);
-       windmillServo.setDirection(DcMotorSimple.Direction.REVERSE);
 
        telemetry.addData("Status", "Initialized");
 	   telemetry.update();
@@ -82,32 +69,12 @@ public class BioBuzzStarterBotTeleop extends OpMode {
 
    @Override
    public void loop() {
-
-       arcadeDrive(-gamepad1.left_stick_y, gamepad1.right_stick_x);
-
+	   double speedMultiplier = gamepad1.left_bumper ? 0.5 : 1.0;
        launch();
-
-       telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
-       telemetry.addLine();
-	   telemetry.update();
    }
 
    @Override
    public void stop() {
-   }
-
-   void arcadeDrive(double forward, double rotate) {
-	   double speedMultiplier = gamepad1.left_bumper ? 0.5 : 1.0;
-       leftPower = forward + rotate;
-       rightPower = forward - rotate;
-
-       // Scale both sides down together if either exceeds 1, so turning stays proportional.
-       double max = Math.max(1.0, Math.max(Math.abs(leftPower), Math.abs(rightPower)));
-       leftPower /= max;
-       rightPower /= max;
-
-       leftDrive.setPower(leftPower*speedMultiplier);
-       rightDrive.setPower(rightPower*speedMultiplier);
    }
 
    void launch() {
