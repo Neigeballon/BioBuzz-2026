@@ -72,40 +72,22 @@ public class BioBuzzStarterbotTeleop extends OpMode {
 
    @Override
    public void loop() {
-	   double speedMultiplier = gamepad1.left_bumper ? 0.5 : 1.0;
+	   double speedDivider = gamepad1.left_bumper ? 2 : 1;
+	   double y = -gamepad1.left_stick_y;
+	   double x = gamepad1.left_stick_x*1.1;
+	   double rx = gamepad1.right_stick_x;
+	   double divider = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
 
-	   if (gamepad1.dpad_up) {
-	   	   LFP = 1;
-		   LBP = 1;
-		   RFP = 1;
-		   RBP = 1;
-	   }
-	   else if (gamepad1.dpad_down) {
-		   LFP = -1;
-		   LBP = -1;
-		   RFP = -1;
-		   RBP = -1;
-	   }
-	   else if (gamepad1.dpad_left) {
-		   LFP = -1;
-		   LBP = 1;
-		   RFP = 1;
-		   RBP = -1;
-	   }
-	   else if (gamepad1.dpad_right) {
-		   LFP = 1;
-		   LBP = -1;
-		   RFP = -1;
-		   RBP = 1;
-	   }
-	   else {
-		   LFP = 0;
-		   LBP = 0;
-		   RFP = 0;
-		   RBP = 0;
-	   }
-	   
-	   
+	   LFP = (y + x + rx) / (divider * speedDivider);
+	   LBP = (y - x + rx) / (divider * speedDivider);
+	   RFP = (y - x - rx) / (divider * speedDivider);
+	   RBP = (y + x - rx) / (divider * speedDivider);
+
+	   LFD.setPower(LFP);
+	   LBD.setPower(LBP);
+	   RFD.setPower(RFP);
+	   RBD.setPower(RBP);
+	  
        launch();
    }
 
