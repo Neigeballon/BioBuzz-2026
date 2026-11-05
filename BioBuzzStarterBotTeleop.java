@@ -14,6 +14,9 @@ public class BioBuzzStarterbotTeleop extends OpMode {
    private DcMotor RBD = null;
    private DcMotorEx launcher = null;
    private DcMotor intake = null;
+   private Limelight3A limelight = null;
+   private Servo turret = null;
+   private ArrayList<Integer> ids = new ArrayList<>();
   
    public final int LAUNCHER_TARGET_VELOCITY = 1375;
    public final int LAUNCHER_MIN_VELOCITY = 1350;
@@ -34,6 +37,9 @@ public class BioBuzzStarterbotTeleop extends OpMode {
 	   RBD = hardwareMap.get(DcMotor.class, "right_back_drive");
        intake = hardwareMap.get(DcMotor.class, "intake");
        launcher = hardwareMap.get(DcMotorEx.class, "launcher");
+	   limelight = hardwareMap.get(Limelight3A.class, "limelight");
+
+	   limelight.pipelineSwitch(0);
        
        LFD.setDirection(DcMotor.Direction.REVERSE);
 	   LBD.setDirection(DcMotor.Direction.REVERSE);
@@ -62,6 +68,14 @@ public class BioBuzzStarterbotTeleop extends OpMode {
 
    @Override
    public void init_loop() {
+	   if (gamepad1.b) {
+		   ids.clear();
+		   ids.add(30); ids.add(31); ids.add(32); ids.add(33); ids.add(34); ids.add(35); ids.add(36); ids.add(37);
+	   }
+	   else if (gamepad1.x) {
+		   ids.clear();
+		   ids.add(38); ids.add(39); ids.add(40); ids.add(41); ids.add(42); ids.add(43); ids.add(44); ids.add(45);
+	   }
    }
 
    @Override
@@ -85,12 +99,34 @@ public class BioBuzzStarterbotTeleop extends OpMode {
 	   LBD.setPower(LBP);
 	   RFD.setPower(RFP);
 	   RBD.setPower(RBP);
+
+	   limelight();
 	  
        launch();
    }
 
    @Override
    public void stop() {
+	   ids.clear();
+   }
+
+   void limelight() {
+	   LLResult result = limelight.getLatestResult();
+
+	   if (result != null && result.isValid()) {
+		    List<LLResultTypes.FiducialResult> fiducials = result.getFiducialResults();
+		    if (!fiducials.isEmpty()) {
+				LLResultTypes.FiducialResult tag = fiducials.get(0);
+				int tagID = tag.getFiducialId();
+				double angle = tag.getTargetXDegrees() * (1/360);
+				double z = tag.getRobotPoseTargetSpace().getZ();
+			}
+	   }
+	   
+	   if (ids.contains(tagID) && z > 1) {
+		   turret.setPosition(turret.getPosition() + angle);
+	   }
+	   
    }
 
    void launch() {
