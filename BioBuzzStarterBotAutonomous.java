@@ -32,6 +32,9 @@ public class BioBuzzStarterBotAutonomous extends OpMode {
    private DcMotor RBD = null;
    private DcMotorEx launcher = null;
    private DcMotor intake = null;
+   private Limelight3A limelight = null;
+   private Servo turret = null;
+   private ArrayList<Integer> ids = new ArrayList<>();
 
    private ElapsedTime stateTimer = new ElapsedTime();
   
@@ -71,6 +74,11 @@ public class BioBuzzStarterBotAutonomous extends OpMode {
 
        telemetry.addData("Status", "Initialized");
 	   telemetry.update();
+   }
+
+   @Override
+   public void init_loop() {
+	   
    }
 
    @Override
