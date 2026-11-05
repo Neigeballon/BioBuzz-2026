@@ -4,6 +4,7 @@ import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 
 import com.qualcomm.robotcore.eventloop.opmode.*;
 import com.qualcomm.robotcore.hardware.*;
+import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name = "BioBuzz StarterBot Teleop", group = "StarterBot")
 public class BioBuzzStarterbotTeleop extends OpMode {
@@ -118,15 +119,13 @@ public class BioBuzzStarterbotTeleop extends OpMode {
 		    if (!fiducials.isEmpty()) {
 				LLResultTypes.FiducialResult tag = fiducials.get(0);
 				int tagID = tag.getFiducialId();
-				double angle = tag.getTargetXDegrees() * (1/360);
+				double angle = tag.getTargetXDegrees();
 				double z = tag.getRobotPoseTargetSpace().getZ();
+				if (ids.contains(tagID) && z > 1) {
+		   			turret.setPosition(Range.clip(turret.getPosition() + angle, 0.0, 1.0));
+	 		    }	
 			}
-	   }
-	   
-	   if (ids.contains(tagID) && z > 1) {
-		   turret.setPosition(turret.getPosition() + angle);
-	   }
-	   
+	   }   
    }
 
    void launch() {
