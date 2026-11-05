@@ -78,7 +78,14 @@ public class BioBuzzStarterBotAutonomous extends OpMode {
 
    @Override
    public void init_loop() {
-	   
+	   if (gamepad1.b) {
+		   ids.clear();
+		   ids.add(30); ids.add(31); ids.add(32); ids.add(33); ids.add(34); ids.add(35); ids.add(36); ids.add(37);
+	   }
+	   else if (gamepad1.x) {
+		   ids.clear();
+		   ids.add(38); ids.add(39); ids.add(40); ids.add(41); ids.add(42); ids.add(43); ids.add(44); ids.add(45);
+	   }
    }
 
    @Override
@@ -86,6 +93,8 @@ public class BioBuzzStarterBotAutonomous extends OpMode {
 
    @Override
    public void loop() {
+      
+
       switch (currentState) {
          case FIRST:
 
