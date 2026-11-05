@@ -119,10 +119,10 @@ public class BioBuzzStarterbotTeleop extends OpMode {
 		    if (!fiducials.isEmpty()) {
 				LLResultTypes.FiducialResult tag = fiducials.get(0);
 				int tagID = tag.getFiducialId();
-				double angle = tag.getTargetXDegrees();
+				double angle = tag.getTargetXDegrees() / 360.0;
 				double z = tag.getRobotPoseTargetSpace().getZ();
-				if (ids.contains(tagID) && z > 1) {
-		   			turret.setPosition(Range.clip(turret.getPosition() + angle, 0.0, 1.0));
+				if (ids.contains(tagID) && z > 1) { //Replace 1 with number of meters measurement
+		   			turret.setPosition(Range.clip(0.5 + angle, 0.0, 1.0));
 	 		    }	
 			}
 	   }   
