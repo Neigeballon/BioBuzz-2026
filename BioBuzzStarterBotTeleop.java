@@ -115,15 +115,14 @@ public class BioBuzzStarterbotTeleop extends OpMode {
 	   LLResult result = limelight.getLatestResult();
 
 	   if (result != null && result.isValid()) {
-		    List<LLResultTypes.FiducialResult> fiducials = result.getFiducialResults();
-		    if (!fiducials.isEmpty()) {
-				LLResultTypes.FiducialResult tag = fiducials.get(0);
-				int tagID = tag.getFiducialId();
-				double angle = tag.getTargetXDegrees() / 360.0;
-				double z = tag.getRobotPoseTargetSpace().getZ();
-				if (ids.contains(tagID) && z > 1) { //Replace 1 with number of meters measurement
-		   			turret.setPosition(Range.clip(0.5 + angle, 0.0, 1.0));
-	 		    }	
+		   List<LLResultTypes.FiducialResult> fiducials = result.getFiducialResults();
+		   if (!fiducials.isEmpty()) {
+				 for (LLResultTypes.FiducialResult tag : fiducials) {
+					 if (ids.contains(tag.getFiducialId) && tag.getRobotPoseTargetSpace().getZ() > 1) { //Replace 1 with meter measurement
+						 turret.setPosition(Range.clip(0.5 + tag.getTargetXDegrees() / 360.0, 0.0, 1.0));
+						 break;
+					 }
+				 }
 			}
 	   }   
    }
