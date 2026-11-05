@@ -183,7 +183,7 @@ public class BioBuzzStarterBotAutonomous extends OpMode {
       }
    }
 
-   void limelight() {
+   void LimeLight() {
 	   LLResult result = limelight.getLatestResult();
 
 	   if (result != null && result.isValid()) {
