@@ -119,8 +119,8 @@ public class BioBuzzStarterbotTeleop extends OpMode {
         if (result != null && result.isValid()) {
             List<LLResultTypes.FiducialResult> fiducials = result.getFiducialResults();
             for (LLResultTypes.FiducialResult f : fiducials) {
-                if (ids.contains(f.getFiducialId) && f.getRobotPoseTargetSpace().getPosition().z > 1.0) {
-                    turret.setPosition(Range.clip(0.5 + f.getTargetXDegrees / 360.0, 0.0, 1.0));
+                if (ids.contains(f.getFiducialId()) && f.getRobotPoseTargetSpace().getPosition().z > 1.0) {
+                    turret.setPosition(Range.clip(0.5 + f.getTargetXDegrees() / 360.0, 0.0, 1.0));
                     break;
                 }
             }
