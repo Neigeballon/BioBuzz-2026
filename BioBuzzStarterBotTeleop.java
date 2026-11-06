@@ -29,9 +29,6 @@ public class BioBuzzStarterbotTeleop extends OpMode {
     double LBP = 0;
     double RFP = 0;
     double RBP = 0;
-    boolean isPressed = false;
-    boolean flipped = false;
-    char alliance = '\0';
     double intakePower;
 
     @Override
@@ -75,12 +72,10 @@ public class BioBuzzStarterbotTeleop extends OpMode {
     @Override
     public void init_loop() {
         if (gamepad1.b) {
-            alliance = 'A';
             ids.clear();
             ids.add(30); ids.add(31); ids.add(32); ids.add(33); ids.add(34); ids.add(35); ids.add(36); ids.add(37);
         }
         else if (gamepad1.x) {
-            alliance = 'B';
             ids.clear();
             ids.add(38); ids.add(39); ids.add(40); ids.add(37); ids.add(42); ids.add(43); ids.add(44); ids.add(45);
         }
@@ -125,7 +120,7 @@ public class BioBuzzStarterbotTeleop extends OpMode {
             List<LLResultTypes.FiducialResult> fiducials = result.getFiducialResults();
             for (LLResultTypes.FiducialResult f : fiducials) {
                 if (ids.contains(f.getFiducialId) && f.getRobotPoseTargetSpace().getPosition().z > 1.0) {
-                    turret.setPosition(Range.clip(0.5 + f.getTargetXDegrees / 360.0));
+                    turret.setPosition(Range.clip(0.5 + f.getTargetXDegrees / 360.0, 0.0, 1.0));
                     break;
                 }
             }
