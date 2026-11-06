@@ -77,12 +77,12 @@ public class BioBuzzStarterbotTeleop extends OpMode {
         if (gamepad1.b) {
             alliance = 'A';
             ids.clear();
-            ids.add(34); ids.add(35); ids.add(36); ids.add(37);
+            ids.add(30); ids.add(31); ids.add(32); ids.add(33); ids.add(34); ids.add(35); ids.add(36); ids.add(37);
         }
         else if (gamepad1.x) {
             alliance = 'B';
             ids.clear();
-            ids.add(42); ids.add(43); ids.add(44); ids.add(45);
+            ids.add(38); ids.add(39); ids.add(40); ids.add(37); ids.add(42); ids.add(43); ids.add(44); ids.add(45);
         }
     }
 
@@ -123,17 +123,10 @@ public class BioBuzzStarterbotTeleop extends OpMode {
 
         if (result != null && result.isValid()) {
             List<LLResultTypes.FiducialResult> fiducials = result.getFiducialResults();
-            if (!fiducials.isEmpty()) {
-                for (LLResultTypes.FiducialResult tag : fiducials) {
-                    if (ids.contains(tag.getFiducialId()) && tag.getRobotPoseTargetSpace().getPosition().z > 1.0 && gamepad2.a) {
-                        while ((tag.getRobotPoseTargetSpace().getPosition().y > 1.25 || tag.getRobotPoseTargetSpace().getPosition().y < 0.75)) {
-                            LBD.setPower(0.5);
-                            if (gamepad2.b) {
-                                break;
-                            }
-                        }
-                        break;
-                    }
+            for (LLResultTypes.FiducialResult f : fiducials) {
+                if (ids.contains(f.getFiducialId) && f.getRobotPoseTargetSpace().getPosition().z > 1.0) {
+                    turret.setPosition(Range.clip(0.5 + f.getTargetXDegrees / 360.0));
+                    break;
                 }
             }
         }
