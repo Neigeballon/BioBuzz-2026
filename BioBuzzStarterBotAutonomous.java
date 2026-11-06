@@ -184,19 +184,17 @@ public class BioBuzzStarterBotAutonomous extends OpMode {
    }
 
    void LimeLight() {
-	   LLResult result = limelight.getLatestResult();
+        LLResult result = limelight.getLatestResult();
 
-	   if (result != null && result.isValid()) {
-		   List<LLResultTypes.FiducialResult> fiducials = result.getFiducialResults();
-		   if (!fiducials.isEmpty()) {
-				 for (LLResultTypes.FiducialResult tag : fiducials) {
-					 if (ids.contains(tag.getFiducialId) && tag.getRobotPoseTargetSpace().getZ() > 1) { //Replace 1 with meter measurement
-						 turret.setPosition(Range.clip(0.5 + tag.getTargetXDegrees() / 360.0, 0.0, 1.0));
-						 break;
-					 }
-				 }
-			}
-	   }   
-   }
+        if (result != null && result.isValid()) {
+            List<LLResultTypes.FiducialResult> fiducials = result.getFiducialResults();
+            for (LLResultTypes.FiducialResult f : fiducials) {
+                if (ids.contains(f.getFiducialId()) && f.getRobotPoseTargetSpace().getPosition().z > 1.0) {
+                    turret.setPosition(Range.clip(0.5 + f.getTargetXDegrees() / 360.0, 0.0, 1.0));
+                    break;
+                }
+            }
+        }
+    }
 
 }
