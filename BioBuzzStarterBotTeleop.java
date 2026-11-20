@@ -70,8 +70,8 @@ public class BioBuzzStarterbotTeleop extends OpMode {
 
         void arcadeDrive(double forward, double rotate) {
             double speedMultiplier = gamepad1.left_bumper ? 0.5 : 1.0;
-            leftPower = forward - rotate;
-            rightPower = forward + rotate;
+            leftPower = forward + rotate;
+            rightPower = forward - rotate;
             // Scale both sides down together if either exceeds 1, so turning stays proportional.
             double max = Math.max(1.0, Math.max(Math.abs(leftPower), Math.abs(rightPower)));
             leftPower /= max;
@@ -124,6 +124,13 @@ public class BioBuzzStarterbotTeleop extends OpMode {
             leftIntakeServo.setPower(intakePower);
             rightIntakeServo.setPower(intakePower);
             windmillServo.setPower(windmillPower);
+        }
+        public void arcadeDrive() {
+                double forward =-gamepad1.left_stick_y; double turn = gamepad1.right_stick_x;
+                double rightpower=forward-turn; double leftpower=forward+turn;
+                double divider=Math.max(1.0,Math.max(Math.abs(leftpower),Math.abs(rightpower)));
+                rightpower /= divider;
+                leftpower /= divider;
         }
 }
 
